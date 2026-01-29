@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 800px; margin: 0 auto; line-height: 1.8;">
+    <h1 style="color: var(--primary-color); text-align: center; margin-bottom: 2rem;">About BloodBridge</h1>
+    
+    <p>BloodBridge is an academic mini-project designed to demonstrate the power of modern web technologies in optimizing lifesaving resources. Our mission is to bridge the gap between blood donors, hospitals, and blood banks to ensure that no life is lost due to a lack of timely blood access.</p>
+    
+    <h3 style="color: var(--primary-color); margin-top: 1.5rem;">Core Features</h3>
+    <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+        <li><strong>Real-time Inventory Management:</strong> Blood banks can keep their stock levels up-to-date.</li>
+        <li><strong>Emergency Requests:</strong> Hospitals can instantly broadcast urgent needs.</li>
+        <li><strong>Donor Engagement:</strong> Individuals can register to donate and save lives.</li>
+        <li><strong>Secure Platform:</strong> Ensuring data privacy and reliability.</li>
+    </ul>
+
+    <h3 style="color: var(--primary-color); margin-top: 1.5rem;">The Team</h3>
+    <p>We are a team of passionate developers committed to using technology for social good. This project serves as a comprehensive study of full-stack web development using Flask, utilizing in-memory data structures for rapid prototyping.</p>
+    
+    <h3 style="color: var(--primary-color); margin-top: 1.5rem;">Future Roadmap</h3>
+    <p>While currently running locally with in-memory storage, BloodBridge is designed to scale. Future phases will include AWS cloud integration (EC2, DynamoDB) for global accessibility and robust data persistence.</p>
+</div>
+{% endblock %}

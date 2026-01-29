@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block title %}Blood Inventory{% endblock %}
+
+{% block content %}
+<h1 style="text-align: center; color: var(--primary-color); margin-bottom: 2rem;">Blood Inventory Management</h1>
+
+{% if can_edit %}
+<div class="form-container" style="margin-bottom: 3rem;">
+    <h3 style="text-align: center; margin-bottom: 1rem;">Update Stock</h3>
+    <form action="{{ url_for('inventory') }}" method="POST">
+        <div class="form-group">
+            <label for="blood_type">Blood Type</label>
+            <select id="blood_type" name="blood_type" class="form-control" required>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="quantity">Quantity (Units)</label>
+            <input type="number" id="quantity" name="quantity" min="1" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="action">Action</label>
+            <select id="action" name="action" class="form-control" required>
+                <option value="add">Add to Stock</option>
+                <option value="remove">Remove from Stock</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Update Inventory</button>
+    </form>
+</div>
+{% endif %}
+
+<div class="card">
+    <h3 style="margin-bottom: 1rem;">Current Stock Levels</h3>
+    {% if inventory %}
+    <table>
+        <thead>
+            <tr>
+                <th>Blood Type</th>
+                <th>Quantity (Units)</th>
+                <th>Last Updated</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in inventory %}
+            <tr>
+                <td style="font-weight: bold; font-size: 1.2rem; color: var(--primary-color);">{{ item.blood_type }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.last_updated }}</td>
+                <td>
+                    {% if item.quantity < 5 %}
+                        <span style="color: red; font-weight: bold;">Low Stock</span>
+                    {% else %}
+                        <span style="color: green;">Adequate</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="text-align: center; color: #777;">No inventory data available.</p>
+    {% endif %}
+</div>
+
+<div style="text-align: center; margin-top: 2rem;">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline">Back to Dashboard</a>
+</div>
+{% endblock %}

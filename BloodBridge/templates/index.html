@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>Welcome to BloodBridge</h1>
+    <p style="font-size: 1.2rem; margin-bottom: 2rem;">Connecting Donors, Hospitals, and Blood Banks to Save Lives.</p>
+    {% if not session.get('user_id') %}
+        <a href="{{ url_for('signup') }}" class="btn btn-secondary" style="background-color: white; color: var(--primary-color); font-weight: bold; padding: 1rem 2rem;">Join Us Today</a>
+    {% else %}
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary" style="background-color: white; color: var(--primary-color); font-weight: bold; padding: 1rem 2rem;">Go to Dashboard</a>
+    {% endif %}
+</div>
+
+<div class="dashboard-grid">
+    <div class="card" style="text-align: center;">
+        <h2 style="color: var(--primary-color);">For Donors</h2>
+        <p>Register to view urgent blood requests and save lives in your community.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h2 style="color: var(--primary-color);">For Hospitals</h2>
+        <p>Quickly broadcast emergency blood requirements to local donors and banks.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+        <h2 style="color: var(--primary-color);">For Blood Banks</h2>
+        <p>Manage your inventory efficiently and coordinate with hospitals.</p>
+    </div>
+</div>
+{% endblock %}

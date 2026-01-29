@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1 style="color: var(--primary-color); text-align: center; margin-bottom: 2rem;">Contact Us</h1>
+    <p style="text-align: center; margin-bottom: 2rem;">Have questions or want to partner with us? Reach out!</p>
+    
+    <form>
+        <!-- Static form for display purposes -->
+        <div class="form-group">
+            <label for="cname">Name</label>
+            <input type="text" id="cname" class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="cemail">Email</label>
+            <input type="email" id="cemail" class="form-control">
+        </div>
+        
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" rows="5" class="form-control"></textarea>
+        </div>
+        
+        <button type="button" class="btn btn-primary" onclick="alert('Thank you for contacting us! This is a demo.')" style="width: 100%;">Send Message</button>
+    </form>
+    
+    <div style="margin-top: 2rem; text-align: center;">
+        <p><strong>Email:</strong> support@bloodbridge.com</p>
+        <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+        <p><strong>Address:</strong> 123 Life Saver Lane, MedCity, USA</p>
+    </div>
+</div>
+{% endblock %}

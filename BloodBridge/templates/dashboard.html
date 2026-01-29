@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <h1>Dashboard</h1>
+    <div>
+        <span style="font-weight: bold; margin-right: 1rem;">Role: {{ user.role.replace('_', ' ').title() }}</span>
+        <span style="background: #e9ecef; padding: 0.5rem 1rem; border-radius: 20px;">{{ user.user_name }}</span>
+    </div>
+</div>
+
+<!-- Action Bar -->
+<div style="margin-bottom: 2rem; display: flex; gap: 1rem;">
+    {% if user.role == 'hospital' or user.role == 'donor' %}
+        <a href="{{ url_for('request_blood') }}" class="btn btn-primary">
+            {% if user.role == 'hospital' %}Create Emergency Request{% else %}Request Blood{% endif %}
+        </a>
+    {% endif %}
+    
+    {% if user.role == 'blood_bank' %}
+        <a href="{{ url_for('inventory') }}" class="btn btn-primary">Manage Inventory</a>
+    {% endif %}
+</div>
+
+<!-- Main Content Area -->
+<div class="dashboard-grid">
+    <!-- Active Requests Column -->
+    <div class="card" style="grid-column: span 2;">
+        <h3 style="border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem; color: var(--primary-color);">
+            {% if user.role == 'donor' %}
+                Active Blood Requests (Can you help?)
+            {% else %}
+                Blood Requests Status
+            {% endif %}
+        </h3>
+        
+        {% if requests %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Urgency</th>
+                        <th>Type</th>
+                        <th>Qty</th>
+                        <th>Requested By</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        {% if user.role == 'donor' %}
+                        <th>Action</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in requests %}
+                    <tr>
+                        <td>
+                            {% if req.urgency == 'Critical' or req.urgency == 'High' %}
+                                <span style="color: red; font-weight: bold;">{{ req.urgency }}</span>
+                            {% else %}
+                                {{ req.urgency }}
+                            {% endif %}
+                        </td>
+                        <td style="font-weight: bold;">{{ req.blood_type }}</td>
+                        <td>{{ req.quantity }}</td>
+                        <td>{{ req.requested_by }} ({{ req.requester_role }})</td>
+                        <td>{{ req.timestamp }}</td>
+                        <td>
+                            <span style="padding: 0.2rem 0.5rem; border-radius: 4px; background: #e9ecef; font-size: 0.9rem;">{{ req.status }}</span>
+                        </td>
+                        {% if user.role == 'donor' %}
+                        <td>
+                            <button class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.3rem 0.6rem;" onclick="alert('Thank you! Please contact the {{ req.requester_role }} directly to arrange donation.')">Donate</button>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p style="text-align: center; color: #777; padding: 2rem;">No active blood requests at the moment.</p>
+        {% endif %}
+    </div>
+
+    <!-- Inventory Overview (Visible to all or just specific?) -->
+    <!-- Prompt says "Blood Bank -> Update inventory", implies others might VIEW it? 
+         A hospital needs to know if blood is available. A donor might not care.
+         Let's show it for Hospital and Blood Bank.
+    -->
+    {% if user.role == 'blood_bank' or user.role == 'hospital' %}
+    <div class="card">
+        <h3 style="border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1rem; color: var(--primary-color);">Current Inventory</h3>
+        {% if inventory %}
+            <ul style="list-style: none;">
+                {% for item in inventory %}
+                <li style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 0.5rem 0;">
+                    <span style="font-weight: bold;">{{ item.blood_type }}</span>
+                    <span>{{ item.quantity }} units</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="{{ url_for('inventory') }}" style="color: var(--primary-color); font-size: 0.9rem;">View Full Details</a>
+            </div>
+        {% else %}
+            <p>No inventory data.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    {% if user.role == 'donor' %}
+    <div class="card">
+        <h3>My Impact</h3>
+        <p style="margin-top: 1rem;">You haven't made any donations yet.</p>
+        <p style="margin-top: 0.5rem; color: #777; font-size: 0.9rem;">Visit a blood bank to start saving lives!</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

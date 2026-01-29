@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}Request Blood{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2 style="text-align: center; color: var(--primary-color); margin-bottom: 1.5rem;">Submit Blood Request</h2>
+    <form action="{{ url_for('request_blood') }}" method="POST">
+        <div class="form-group">
+            <label for="blood_type">Blood Type Needed</label>
+            <select id="blood_type" name="blood_type" class="form-control" required>
+                <option value="" disabled selected>Select Type</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="quantity">Quantity (Units)</label>
+            <input type="number" id="quantity" name="quantity" min="1" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="urgency">Urgency Level</label>
+            <select id="urgency" name="urgency" class="form-control" required>
+                <option value="Low">Low - Planned Surgery</option>
+                <option value="Medium">Medium - Required within 24hrs</option>
+                <option value="High">High - Emergency/Immediate</option>
+                <option value="Critical">Critical - Life Threatening</option>
+            </select>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Request</button>
+    </form>
+    <div style="text-align: center; margin-top: 1rem;">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
